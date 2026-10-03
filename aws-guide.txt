@@ -1,0 +1,27 @@
+================================================================================
+                 AWS SETUP & DEPLOYMENT QUICK START GUIDE
+================================================================================
+Document: INTERNAL-TECH-GUIDE
+Target Service: AWS EC2 & S3 Deployment
+
+1. PREREQUISITES
+- Installed AWS CLI v2 (`aws --version`)
+- Configured IAM credentials via `aws configure` (Region: us-east-1)
+
+2. CREATING AN S3 BUCKET FOR ASSETS
+Run the following command to create a private bucket:
+   $ aws s3api create-bucket --bucket company-app-assets-2026 --region us-east-1
+
+3. LAUNCHING AN EC2 INSTANCE (Amazon Linux 2023)
+Launch a basic web server instance using the CLI:
+   $ aws ec2 run-instances \
+       --image-id ami-0c55b159cbfafe1f0 \
+       --count 1 \
+       --instance-type t3.micro \
+       --key-name my-ssh-key \
+       --security-group-ids sg-0123456789abcdef0
+
+4. ENVIRONMENT CLEANUP
+To avoid unnecessary billing, terminate unused resources when complete:
+   $aws ec2 terminate-instances --instance-ids <instance-id>$ aws s3 rb s3://company-app-assets-2026 --force
+================================================================================
